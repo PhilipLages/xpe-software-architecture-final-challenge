@@ -34,3 +34,19 @@ cd xpe-software-architecture-final-challenge
 ```bash
 yarn
 ```
+
+### 3. Generate Prisma Client
+
+```bash
+yarn prisma generate
+```
+
+### 4. Run the app
+
+```bash
+yarn dev
+```
+
+### 5. Use a API development tool such as [Postman](https://www.postman.com/) to test the requests.
+
+### 6. Endpoints documentation can be found [here](http://localhost:3000/docs), by running the app.
