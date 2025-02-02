@@ -15,6 +15,7 @@ model Client {
   phone     String?
   address   String?
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   orders Order[]
 }
