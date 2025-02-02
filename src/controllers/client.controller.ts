@@ -41,6 +41,25 @@ export class ClientController {
     }
   }
 
+  static async getByName(req: Request, res: Response) {
+    Logger.info("Getting clients by name");
+    try {
+      const name = req.params.name;
+      const { status, data } = await ClientService.getByName(name);
+
+      if (Array.isArray(data)) {
+        Logger.info(`Found ${data.length} clients`);
+      }
+
+      res.status(status).json(data);
+    } catch (error: unknown) {
+      const message = (error as Error).message;
+      Logger.error(message);
+
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+    }
+  }
+
   static async update(req: Request, res: Response) {
     Logger.info("Updating client");
     try {
@@ -68,6 +87,24 @@ export class ClientController {
 
       if ("id" in data) {
         Logger.info(`Client deleted: ${data.id}`);
+      }
+
+      res.status(status).json(data);
+    } catch (error: unknown) {
+      const message = (error as Error).message;
+      Logger.error(message);
+
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+    }
+  }
+
+  static async getAll(req: Request, res: Response) {
+    Logger.info("Getting all clients");
+    try {
+      const { status, data } = await ClientService.getAll();
+
+      if (Array.isArray(data)) {
+        Logger.info(`Found ${data.length} clients`);
       }
 
       res.status(status).json(data);

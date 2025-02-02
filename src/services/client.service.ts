@@ -50,6 +50,29 @@ export class ClientService {
     return { status: httpStatusCodes.OK, data: client };
   }
 
+  static async getByName(name: string): Promise<DefaultClientResponse> {
+    const clients = await prisma.client.findMany({
+      where: {
+        name: {
+          contains: name,
+          mode: "insensitive",
+        },
+      },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        address: true,
+        createdAt: true,
+        updatedAt: true,
+        password: false,
+      },
+    });
+
+    return { status: httpStatusCodes.OK, data: clients };
+  }
+
   static async update(
     id: string,
     payload: Prisma.ClientUpdateInput
@@ -118,5 +141,22 @@ export class ClientService {
     delete deletedClient.password;
 
     return { status: httpStatusCodes.OK, data: deletedClient };
+  }
+
+  static async getAll(): Promise<DefaultClientResponse> {
+    const clients = await prisma.client.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        phone: true,
+        address: true,
+        createdAt: true,
+        updatedAt: true,
+        password: false,
+      },
+    });
+
+    return { status: httpStatusCodes.OK, data: clients };
   }
 }
