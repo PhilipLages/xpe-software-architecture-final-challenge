@@ -75,7 +75,20 @@ export class ProductService {
     id: string,
     payload: Prisma.ProductUpdateInput
   ): Promise<DefaultProductResponse> {
-    const product = await prisma.product.update({
+    const product = await prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!product) {
+      return {
+        status: httpStatusCodes.NOT_FOUND,
+        data: { message: "Product not found" },
+      };
+    }
+
+    const updatedProduct = await prisma.product.update({
       where: {
         id,
       },
@@ -83,7 +96,7 @@ export class ProductService {
     });
 
     const data = {
-      ...product,
+      ...updatedProduct,
       price: product.price.toNumber(),
     };
 

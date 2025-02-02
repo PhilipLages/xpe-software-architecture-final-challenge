@@ -1,5 +1,4 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { Client } from "../models/client.model";
 import { httpStatusCodes } from "../controllers/utils";
 import { validateEmail } from "../utils/validate-email";
 import { hashPassword } from "../utils/hash-password";
