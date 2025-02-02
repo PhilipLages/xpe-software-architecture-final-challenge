@@ -26,6 +26,8 @@ export class ClientService {
       data,
     });
 
+    delete newClient.password;
+
     return { status: httpStatusCodes.CREATED, data: newClient };
   }
 
@@ -42,6 +44,8 @@ export class ClientService {
         data: { message: "Client not found" },
       };
     }
+
+    delete client.password;
 
     return { status: httpStatusCodes.OK, data: client };
   }
@@ -86,6 +90,33 @@ export class ClientService {
       data,
     });
 
+    delete updatedClient.password;
+
     return { status: httpStatusCodes.OK, data: updatedClient };
+  }
+
+  static async delete(id: string): Promise<DefaultClientResponse> {
+    const client = await prisma.client.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!client) {
+      return {
+        status: httpStatusCodes.NOT_FOUND,
+        data: { message: "Client not found" },
+      };
+    }
+
+    const deletedClient = await prisma.client.delete({
+      where: {
+        id,
+      },
+    });
+
+    delete deletedClient.password;
+
+    return { status: httpStatusCodes.OK, data: deletedClient };
   }
 }

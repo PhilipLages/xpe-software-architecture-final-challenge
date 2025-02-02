@@ -59,4 +59,23 @@ export class ClientController {
       res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
     }
   }
+
+  static async delete(req: Request, res: Response) {
+    Logger.info("Deleting client");
+    try {
+      const id = req.params.id;
+      const { status, data } = await ClientService.delete(id);
+
+      if ("id" in data) {
+        Logger.info(`Client deleted: ${data.id}`);
+      }
+
+      res.status(status).json(data);
+    } catch (error: unknown) {
+      const message = (error as Error).message;
+      Logger.error(message);
+
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+    }
+  }
 }
