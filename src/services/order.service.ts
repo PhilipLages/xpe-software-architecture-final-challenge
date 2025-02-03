@@ -1,5 +1,5 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { httpStatusCodes } from "../controllers/utils";
+import { httpStatusCodes } from "../utils/http-status-codes";
 import { OrderStatusEnum } from "../models/order.model";
 
 const prisma = new PrismaClient();

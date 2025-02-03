@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { DefaultProductResponse } from "../types";
-import { httpStatusCodes } from "../controllers/utils";
+import { httpStatusCodes } from "../utils/http-status-codes";
 
 const prisma = new PrismaClient();
 

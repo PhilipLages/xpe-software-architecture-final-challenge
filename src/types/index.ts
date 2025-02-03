@@ -1,4 +1,4 @@
-import { httpStatusCodes } from "../controllers/utils";
+import { httpStatusCodes } from "../utils/http-status-codes";
 import { Client } from "../models/client.model";
 import { Order } from "../models/order.model";
 import { Product } from "../models/product.model";

@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import Logger from "../utils/logger";
-import { httpStatusCodes } from "./utils";
+import { httpStatusCodes } from "../utils/http-status-codes";
 import { OrderService } from "../services/order.service";
 
 export class OrderController {

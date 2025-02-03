@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { ProductService } from "../services/product.service";
 import Logger from "../utils/logger";
-import { httpStatusCodes } from "./utils";
+import { httpStatusCodes } from "../utils/http-status-codes";
 
 export class ProductController {
   static async create(req: Request, res: Response) {
