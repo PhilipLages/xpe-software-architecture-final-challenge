@@ -19,6 +19,7 @@ This is a simple E-Commerce API built using **Node.js**, **Express**, **TypeScri
 - **TypeScript**: JavaScript superset for static typing.
 - **Prisma**: ORM for database access.
 - **PostgreSQL (or your preferred database)**: Used as the database for storing data.
+- **Supabase**: Used to manage database persistence, though any PostgreSQL instance can be used.
 
 ## Installation
 
@@ -35,18 +36,24 @@ cd xpe-software-architecture-final-challenge
 yarn
 ```
 
-### 3. Generate Prisma Client
+### 3. Seed the database
+
+```bash
+yarn seed
+```
+
+### 4. Generate Prisma Client
 
 ```bash
 yarn prisma generate
 ```
 
-### 4. Run the app
+### 5. Run the app
 
 ```bash
 yarn dev
 ```
 
-### 5. Use a API development tool such as [Postman](https://www.postman.com/) to test the requests.
+### 6. Use a API development tool such as [Postman](https://www.postman.com/) to test the requests.
 
-### 6. Endpoints documentation can be found [here](http://localhost:3000/docs), by running the app.
+### 7. Endpoints documentation can be found [here](http://localhost:3000/docs), by running the app.
