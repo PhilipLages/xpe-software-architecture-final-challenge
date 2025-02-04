@@ -7,16 +7,16 @@ export class OrderController {
   static async create(req: Request, res: Response) {
     Logger.info("Creating a new order");
     try {
-      const { status, data } = await OrderService.create(
+      const { status, data, error } = await OrderService.create(
         req.body.order,
         req.body.products
       );
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Order created: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -28,13 +28,13 @@ export class OrderController {
     Logger.info("Getting order by id");
     try {
       const id = req.params.id;
-      const { status, data } = await OrderService.getById(id);
+      const { status, data, error } = await OrderService.getById(id);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Order found: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -45,13 +45,13 @@ export class OrderController {
   static async getAll(req: Request, res: Response) {
     Logger.info("Getting all orders");
     try {
-      const { status, data } = await OrderService.getAll();
+      const { status, data, error } = await OrderService.getAll();
 
-      if (Array.isArray(data)) {
+      if (data) {
         Logger.info(`Found ${data.length} orders`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -63,13 +63,15 @@ export class OrderController {
     Logger.info("Getting orders by client id");
     try {
       const clientId = req.params.clientId;
-      const { status, data } = await OrderService.getByClientId(clientId);
+      const { status, data, error } = await OrderService.getByClientId(
+        clientId
+      );
 
-      if (Array.isArray(data)) {
+      if (data) {
         Logger.info(`Found ${data.length} orders`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -81,13 +83,13 @@ export class OrderController {
     Logger.info("Updating order");
     try {
       const id = req.params.id;
-      const { status, data } = await OrderService.update(id, req.body);
+      const { status, data, error } = await OrderService.update(id, req.body);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Order updated: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -99,13 +101,13 @@ export class OrderController {
     Logger.info("Deleting order");
     try {
       const id = req.params.id;
-      const { status, data } = await OrderService.delete(id);
+      const { status, data, error } = await OrderService.delete(id);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Order deleted: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);

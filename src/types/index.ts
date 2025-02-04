@@ -3,20 +3,22 @@ import { Client } from "../models/client.model";
 import { Order } from "../models/order.model";
 import { Product } from "../models/product.model";
 
-export type DefaultClientResponse = {
+type DefaultResponse<T> = {
   status: (typeof httpStatusCodes)[keyof typeof httpStatusCodes];
-  data:
-    | Omit<Client, "password">
-    | Omit<Client, "password">[]
-    | { message: string };
+  data: T | null;
+  error: string | null;
 };
 
-export type DefaultProductResponse = {
-  status: (typeof httpStatusCodes)[keyof typeof httpStatusCodes];
-  data: Product | Product[] | { message: string };
-};
+export interface OneClientResponse
+  extends DefaultResponse<Omit<Client, "password">> {}
 
-export type DefaultOrderResponse = {
-  status: (typeof httpStatusCodes)[keyof typeof httpStatusCodes];
-  data: Order | Order[] | { message: string };
-};
+export interface OneProductResponse extends DefaultResponse<Product> {}
+
+export interface OneOrderResponse extends DefaultResponse<Order> {}
+
+export interface ManyClientsResponse
+  extends DefaultResponse<Omit<Client, "password">[]> {}
+
+export interface ManyProductsResponse extends DefaultResponse<Product[]> {}
+
+export interface ManyOrdersResponse extends DefaultResponse<Order[]> {}

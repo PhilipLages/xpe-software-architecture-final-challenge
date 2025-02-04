@@ -7,13 +7,13 @@ export class ClientController {
   static async create(req: Request, res: Response) {
     Logger.info("Creating a new client");
     try {
-      const { status, data } = await ClientService.create(req.body);
+      const { status, data, error } = await ClientService.create(req.body);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Client created: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -26,13 +26,13 @@ export class ClientController {
     Logger.info("Getting client by id");
     try {
       const id = req.params.id;
-      const { status, data } = await ClientService.getById(id);
+      const { status, data, error } = await ClientService.getById(id);
 
-      if ("id" in data) {
-        Logger.info(`Client found: ${data.id}`);
+      if (data) {
+        Logger.info(`Found client: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -45,13 +45,13 @@ export class ClientController {
     Logger.info("Getting clients by name");
     try {
       const name = req.params.name;
-      const { status, data } = await ClientService.getByName(name);
+      const { status, data, error } = await ClientService.getByName(name);
 
-      if (Array.isArray(data)) {
+      if (data) {
         Logger.info(`Found ${data.length} clients`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -63,13 +63,13 @@ export class ClientController {
   static async getAll(req: Request, res: Response) {
     Logger.info("Getting all clients");
     try {
-      const { status, data } = await ClientService.getAll();
+      const { status, data, error } = await ClientService.getAll();
 
-      if (Array.isArray(data)) {
+      if (data) {
         Logger.info(`Found ${data.length} clients`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -82,13 +82,13 @@ export class ClientController {
     Logger.info("Updating client");
     try {
       const id = req.params.id;
-      const { status, data } = await ClientService.update(id, req.body);
+      const { status, data, error } = await ClientService.update(id, req.body);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Client updated: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);
@@ -101,13 +101,13 @@ export class ClientController {
     Logger.info("Deleting client");
     try {
       const id = req.params.id;
-      const { status, data } = await ClientService.delete(id);
+      const { status, data, error } = await ClientService.delete(id);
 
-      if ("id" in data) {
+      if (data) {
         Logger.info(`Client deleted: ${data.id}`);
       }
 
-      res.status(status).json(data);
+      res.status(status).json({ data, error });
     } catch (error: unknown) {
       const message = (error as Error).message;
       Logger.error(message);

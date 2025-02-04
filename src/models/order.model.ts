@@ -1,16 +1,11 @@
-export enum OrderStatusEnum {
-  PENDING = "PENDING",
-  PROCESSING = "PROCESSING",
-  SHIPPED = "SHIPPED",
-  DELIVERED = "DELIVERED",
-  CANCELED = "CANCELED",
-}
+import { $Enums } from "@prisma/client";
+import { OrderItem } from "./order-item.model";
 
 export interface Order {
   id: string;
   clientId: string;
   total: number;
-  status: OrderStatusEnum;
-  orderItems: string[];
+  status: $Enums.OrderStatus;
+  orderItems?: OrderItem[];
   createdAt: Date;
 }

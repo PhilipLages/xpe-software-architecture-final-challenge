@@ -2,14 +2,14 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { httpStatusCodes } from "../utils/http-status-codes";
 import { validateEmail } from "../utils/validate-email";
 import { hashPassword } from "../utils/hash-password";
-import { DefaultClientResponse } from "../types";
+import { ManyClientsResponse, OneClientResponse } from "../types";
 
 const prisma = new PrismaClient();
 
 export class ClientService {
   static async create(
     payload: Prisma.ClientCreateInput
-  ): Promise<DefaultClientResponse> {
+  ): Promise<OneClientResponse> {
     if (!validateEmail(payload.email)) {
       throw new Error("Invalid email");
     }
@@ -27,10 +27,10 @@ export class ClientService {
 
     delete newClient.password;
 
-    return { status: httpStatusCodes.CREATED, data: newClient };
+    return { status: httpStatusCodes.CREATED, data: newClient, error: null };
   }
 
-  static async getById(id: string): Promise<DefaultClientResponse> {
+  static async getById(id: string): Promise<OneClientResponse> {
     const client = await prisma.client.findUnique({
       where: {
         id,
@@ -40,16 +40,17 @@ export class ClientService {
     if (!client) {
       return {
         status: httpStatusCodes.NOT_FOUND,
-        data: { message: "Client not found" },
+        data: null,
+        error: "Client not found",
       };
     }
 
     delete client.password;
 
-    return { status: httpStatusCodes.OK, data: client };
+    return { status: httpStatusCodes.OK, data: client, error: null };
   }
 
-  static async getByName(name: string): Promise<DefaultClientResponse> {
+  static async getByName(name: string): Promise<ManyClientsResponse> {
     const clients = await prisma.client.findMany({
       where: {
         name: {
@@ -69,13 +70,13 @@ export class ClientService {
       },
     });
 
-    return { status: httpStatusCodes.OK, data: clients };
+    return { status: httpStatusCodes.OK, data: clients, error: null };
   }
 
   static async update(
     id: string,
     payload: Prisma.ClientUpdateInput
-  ): Promise<DefaultClientResponse> {
+  ): Promise<OneClientResponse> {
     const client = await prisma.client.findUnique({
       where: {
         id,
@@ -85,14 +86,16 @@ export class ClientService {
     if (!client) {
       return {
         status: httpStatusCodes.NOT_FOUND,
-        data: { message: "Client not found" },
+        data: null,
+        error: "Client not found",
       };
     }
 
     if (payload.email && !validateEmail(payload.email as string)) {
       return {
         status: httpStatusCodes.BAD_REQUEST,
-        data: { message: "Invalid email" },
+        data: null,
+        error: "Invalid email",
       };
     }
 
@@ -114,10 +117,10 @@ export class ClientService {
 
     delete updatedClient.password;
 
-    return { status: httpStatusCodes.OK, data: updatedClient };
+    return { status: httpStatusCodes.OK, data: updatedClient, error: null };
   }
 
-  static async delete(id: string): Promise<DefaultClientResponse> {
+  static async delete(id: string): Promise<OneClientResponse> {
     const client = await prisma.client.findUnique({
       where: {
         id,
@@ -127,7 +130,8 @@ export class ClientService {
     if (!client) {
       return {
         status: httpStatusCodes.NOT_FOUND,
-        data: { message: "Client not found" },
+        data: null,
+        error: "Client not found",
       };
     }
 
@@ -139,10 +143,10 @@ export class ClientService {
 
     delete deletedClient.password;
 
-    return { status: httpStatusCodes.OK, data: deletedClient };
+    return { status: httpStatusCodes.OK, data: deletedClient, error: null };
   }
 
-  static async getAll(): Promise<DefaultClientResponse> {
+  static async getAll(): Promise<ManyClientsResponse> {
     const clients = await prisma.client.findMany({
       select: {
         id: true,
@@ -156,6 +160,6 @@ export class ClientService {
       },
     });
 
-    return { status: httpStatusCodes.OK, data: clients };
+    return { status: httpStatusCodes.OK, data: clients, error: null };
   }
 }

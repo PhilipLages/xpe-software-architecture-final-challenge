@@ -1,13 +1,13 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import { DefaultProductResponse } from "../types";
 import { httpStatusCodes } from "../utils/http-status-codes";
+import { ManyProductsResponse, OneProductResponse } from "../types";
 
 const prisma = new PrismaClient();
 
 export class ProductService {
   static async create(
     payload: Prisma.ProductCreateInput
-  ): Promise<DefaultProductResponse> {
+  ): Promise<OneProductResponse> {
     const newProduct = await prisma.product.create({
       data: payload,
     });
@@ -17,10 +17,10 @@ export class ProductService {
       price: newProduct.price.toNumber(),
     };
 
-    return { status: httpStatusCodes.CREATED, data };
+    return { status: httpStatusCodes.CREATED, data, error: null };
   }
 
-  static async getById(id: string): Promise<DefaultProductResponse> {
+  static async getById(id: string): Promise<OneProductResponse> {
     const product = await prisma.product.findUnique({
       where: {
         id,
@@ -30,7 +30,8 @@ export class ProductService {
     if (!product) {
       return {
         status: httpStatusCodes.NOT_FOUND,
-        data: { message: "Product not found" },
+        data: null,
+        error: "Product not found",
       };
     }
 
@@ -39,10 +40,10 @@ export class ProductService {
       price: product.price.toNumber(),
     };
 
-    return { status: httpStatusCodes.OK, data };
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 
-  static async getByName(name: string): Promise<DefaultProductResponse> {
+  static async getByName(name: string): Promise<ManyProductsResponse> {
     const products = await prisma.product.findMany({
       where: {
         name: {
@@ -57,10 +58,10 @@ export class ProductService {
       price: product.price.toNumber(),
     }));
 
-    return { status: httpStatusCodes.OK, data };
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 
-  static async getAll(): Promise<DefaultProductResponse> {
+  static async getAll(): Promise<ManyProductsResponse> {
     const products = await prisma.product.findMany();
 
     const data = products.map((product) => ({
@@ -68,13 +69,13 @@ export class ProductService {
       price: product.price.toNumber(),
     }));
 
-    return { status: httpStatusCodes.OK, data };
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 
   static async update(
     id: string,
     payload: Prisma.ProductUpdateInput
-  ): Promise<DefaultProductResponse> {
+  ): Promise<OneProductResponse> {
     const product = await prisma.product.findUnique({
       where: {
         id,
@@ -84,7 +85,8 @@ export class ProductService {
     if (!product) {
       return {
         status: httpStatusCodes.NOT_FOUND,
-        data: { message: "Product not found" },
+        data: null,
+        error: "Product not found",
       };
     }
 
@@ -100,11 +102,25 @@ export class ProductService {
       price: product.price.toNumber(),
     };
 
-    return { status: httpStatusCodes.OK, data };
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 
-  static async delete(id: string): Promise<DefaultProductResponse> {
-    const product = await prisma.product.delete({
+  static async delete(id: string): Promise<OneProductResponse> {
+    const product = await prisma.product.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!product) {
+      return {
+        status: httpStatusCodes.NOT_FOUND,
+        data: null,
+        error: "Product not found",
+      };
+    }
+
+    const deletedProduct = await prisma.product.delete({
       where: {
         id,
       },
@@ -112,9 +128,9 @@ export class ProductService {
 
     const data = {
       ...product,
-      price: product.price.toNumber(),
+      price: deletedProduct.price.toNumber(),
     };
 
-    return { status: httpStatusCodes.OK, data };
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 }
