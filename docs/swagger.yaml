@@ -578,6 +578,12 @@ components:
           format: float
         status:
           type: string
+          enum:
+            - PENDING
+            - PROCESSING
+            - SHIPPED
+            - DELIVERED
+            - CANCELLED
         createdAt:
           type: string
           format: date-time

@@ -11,7 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const swaggerDocument = YAML.load(path.join(__dirname, "docs", "swagger.yaml"));
+const swaggerDocument = YAML.load(
+  path.join(__dirname, "./../docs", "swagger.yaml")
+);
 
 app.use("/clients", clientRouter);
 app.use("/products", productRouter);
