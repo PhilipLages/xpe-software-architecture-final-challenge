@@ -1,7 +1,7 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import { httpStatusCodes } from "../utils/http-status-codes";
 import { Order } from "../models/order.model";
-import { ManyOrdersResponse, OneOrderResponse } from "../types";
+import { DefaultResponse, ManyOrdersResponse, OneOrderResponse } from "../types";
 import { checkProductsStock } from "../utils/check-products-stock";
 
 const prisma = new PrismaClient();
@@ -200,6 +200,12 @@ export class OrderService {
     const data = {
       ...deletedOrder,
     };
+
+    return { status: httpStatusCodes.OK, data, error: null };
+  }
+
+  static async countAll(): Promise<DefaultResponse<Number>> {
+    const data = await prisma.order.count();
 
     return { status: httpStatusCodes.OK, data, error: null };
   }

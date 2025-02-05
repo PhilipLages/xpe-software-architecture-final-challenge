@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import { httpStatusCodes } from "../utils/http-status-codes";
 import { validateEmail } from "../utils/validate-email";
 import { hashPassword } from "../utils/hash-password";
-import { ManyClientsResponse, OneClientResponse } from "../types";
+import { DefaultResponse, ManyClientsResponse, OneClientResponse } from "../types";
 
 const prisma = new PrismaClient();
 
@@ -161,5 +161,11 @@ export class ClientService {
     });
 
     return { status: httpStatusCodes.OK, data: clients, error: null };
+  }
+
+  static async countAll(): Promise<DefaultResponse<Number>> {
+    const data = await prisma.client.count();
+
+    return { status: httpStatusCodes.OK, data, error: null };
   }
 }

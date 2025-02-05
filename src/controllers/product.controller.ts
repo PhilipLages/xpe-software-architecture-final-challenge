@@ -109,4 +109,21 @@ export class ProductController {
       res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
     }
   }
+
+  static async countAll(req: Request, res: Response) {
+    Logger.info("Counting all products");
+    try {
+      const { status, data, error } = await ProductService.countAll();
+
+      if (data) {
+        Logger.info(`Found ${data} products`);
+      }
+
+      res.status(status).json({ data, error });
+    } catch (error: unknown) {
+      const message = (error as Error).message;
+      Logger.error(message);
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
+    }
+  }
 }

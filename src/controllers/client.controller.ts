@@ -18,7 +18,7 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 
@@ -37,7 +37,7 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 
@@ -56,7 +56,7 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 
@@ -74,7 +74,7 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 
@@ -93,7 +93,7 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 
@@ -112,7 +112,23 @@ export class ClientController {
       const message = (error as Error).message;
       Logger.error(message);
 
-      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ message });
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
+    }
+  }
+
+  static async countAll(req: Request, res: Response) {
+    Logger.info("Counting all clients");
+    try {
+      const {status, data, error} = await ClientService.countAll();
+
+      Logger.info(`Total clients: ${data}`);
+
+      res.status(status).json({ data, error });
+    } catch (error: unknown) {
+      const message = (error as Error).message;
+      Logger.error(message);
+
+      res.status(httpStatusCodes.INTERNAL_SERVER_ERROR).json({ data: null, error: message });
     }
   }
 }

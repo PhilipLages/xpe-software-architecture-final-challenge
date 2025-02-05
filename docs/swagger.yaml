@@ -99,6 +99,20 @@ paths:
                 items:
                   $ref: '#/components/schemas/Client'
 
+  /clients/count:
+    get:
+      tags:
+        - Clients
+      summary: Count all clients
+      description: Retrieves the count of all clients.
+      responses:
+        '200':
+          description: The max count of all clients
+          content:
+            application/json:
+              schema:
+                type: number
+
   /clients/{id}:
     put:
       tags:
@@ -258,6 +272,19 @@ paths:
         '404':
           description: Product not found
 
+  /products/count:
+    get:
+      tags:
+        - Products
+      summary: Count all products
+      description: Retrieves the count of all products.
+      responses:
+        '200':
+          description: The max count of all products
+          content:
+            application/json:
+              schema:
+                type: number
 
   # Orders Endpoints
   /orders/create:
@@ -387,9 +414,42 @@ paths:
         - name: id
           in: path
           required: true
+
+  /orders/count:
+    get:
+      tags:
+        - Orders
+      summary: Count all orders
+      description: Retrieves the count of all orders.
+      responses:
+        '200':
+          description: The max count of all orders
+          content:
+            application/json:
+              schema:
+                type: number
 components:
   schemas:
+    ResponseWrapper:
+      type: object
+      properties:
+        data:
+          type: object
+        error:
+          type: ["string", "null"]
+
     Client:
+      allOf:
+        - $ref: '#/components/schemas/ResponseWrapper'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                client:
+                  $ref: '#/components/schemas/ClientData'
+
+    ClientData:
       type: object
       properties:
         id:
@@ -434,6 +494,17 @@ components:
           type: string
 
     Product:
+      allOf:
+        - $ref: '#/components/schemas/ResponseWrapper'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                product:
+                  $ref: '#/components/schemas/ProductData'
+
+    ProductData:
       type: object
       properties:
         id:
@@ -485,6 +556,17 @@ components:
           type: string
 
     Order:
+      allOf:
+        - $ref: '#/components/schemas/ResponseWrapper'
+        - type: object
+          properties:
+            data:
+              type: object
+              properties:
+                order:
+                  $ref: '#/components/schemas/OrderData'
+
+    OrderData:
       type: object
       properties:
         id:
@@ -520,7 +602,7 @@ components:
             $ref: '#/components/schemas/OrderItem'
       required:
         - clientId
-        - items
+        - orderItems
 
     OrderItem:
       type: object

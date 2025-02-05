@@ -3,7 +3,7 @@ import { Client } from "../models/client.model";
 import { Order } from "../models/order.model";
 import { Product } from "../models/product.model";
 
-type DefaultResponse<T> = {
+export type DefaultResponse<T> = {
   status: (typeof httpStatusCodes)[keyof typeof httpStatusCodes];
   data: T | null;
   error: string | null;
