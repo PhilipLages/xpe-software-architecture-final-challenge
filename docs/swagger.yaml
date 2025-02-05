@@ -13,7 +13,21 @@ tags:
 
 paths:
   # Clients Endpoints
-  /clients/create:
+  /clients:
+    get:
+      tags:
+        - Clients
+      summary: Get all clients
+      description: Retrieves a list of all clients.
+      responses:
+        "200":
+          description: A list of all clients
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Client"
     post:
       tags:
         - Clients
@@ -24,38 +38,72 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ClientCreateInput'
+              $ref: "#/components/schemas/ClientCreateInput"
       responses:
-        '201':
+        "201":
           description: Client created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
-        '400':
+                $ref: "#/components/schemas/Client"
+        "400":
           description: Invalid data
 
   /clients/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The client ID
+        schema:
+          type: string
     get:
       tags:
         - Clients
       summary: Get client by ID
       description: Retrieves a client by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The client ID
-          schema:
-            type: string
       responses:
-        '200':
+        "200":
           description: A client object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
-        '404':
+                $ref: "#/components/schemas/Client"
+        "404":
+          description: Client not found
+    put:
+      tags:
+        - Clients
+      summary: Update a client by ID
+      description: Updates an existing client by its unique ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ClientUpdateInput"
+      responses:
+        "200":
+          description: Client updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
+          description: Client not found
+    delete:
+      tags:
+        - Clients
+      summary: Delete a client by ID
+      description: Deletes a client by its unique ID.
+      responses:
+        "200":
+          description: Client deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "404":
           description: Client not found
 
   /clients/name/{name}:
@@ -72,32 +120,16 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: A list of clients
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Client'
-        '404':
+                  $ref: "#/components/schemas/Client"
+        "404":
           description: No clients found matching the name
-
-  /clients:
-    get:
-      tags:
-        - Clients
-      summary: Get all clients
-      description: Retrieves a list of all clients.
-      responses:
-        '200':
-          description: A list of all clients
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Client'
 
   /clients/count:
     get:
@@ -106,64 +138,29 @@ paths:
       summary: Count all clients
       description: Retrieves the count of all clients.
       responses:
-        '200':
+        "200":
           description: The max count of all clients
           content:
             application/json:
               schema:
                 type: number
 
-  /clients/{id}:
-    put:
+  # Products Endpoints
+  /products:
+    get:
       tags:
-        - Clients
-      summary: Update a client by ID
-      description: Updates an existing client by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The client ID
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ClientUpdateInput'
+        - Products
+      summary: Get all products
+      description: Retrieves a list of all products.
       responses:
-        '200':
-          description: Client updated successfully
+        "200":
+          description: A list of all products
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Client'
-        '404':
-          description: Client not found
-
-  /clients/{id}:
-    delete:
-      tags:
-        - Clients
-      summary: Delete a client by ID
-      description: Deletes a client by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The client ID
-          schema:
-            type: string
-      responses:
-        '200':
-          description: Client deleted successfully
-        '404':
-          description: Client not found
-
-
-  # Products Endpoints
-  /products/create:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
     post:
       tags:
         - Products
@@ -174,103 +171,98 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductCreateInput'
+              $ref: "#/components/schemas/ProductCreateInput"
       responses:
-        '201':
+        "201":
           description: Product created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
-        '400':
+                $ref: "#/components/schemas/Product"
+        "400":
           description: Invalid data
 
   /products/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The product ID
+        schema:
+          type: string
     get:
       tags:
         - Products
       summary: Get product by ID
       description: Retrieves a product by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The product ID
-          schema:
-            type: string
       responses:
-        '200':
+        "200":
           description: A product object
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
-        '404':
+                $ref: "#/components/schemas/Product"
+        "404":
           description: Product not found
-
-  /products:
-    get:
-      tags:
-        - Products
-      summary: Get all products
-      description: Retrieves a list of all products.
-      responses:
-        '200':
-          description: A list of all products
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Product'
-
-  /products/{id}:
     put:
       tags:
         - Products
       summary: Update a product by ID
       description: Updates an existing product by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The product ID
-          schema:
-            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ProductUpdateInput'
+              $ref: "#/components/schemas/ProductUpdateInput"
       responses:
-        '200':
+        "200":
           description: Product updated successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Product'
-        '404':
+                $ref: "#/components/schemas/Product"
+        "404":
           description: Product not found
-
-  /products/{id}:
     delete:
       tags:
         - Products
       summary: Delete a product by ID
       description: Deletes a product by its unique ID.
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "404":
+          description: Product not found
+
+  /products/name/{name}:
+    get:
+      tags:
+        - Products
+      summary: Get products by name
+      description: Retrieves a list of products matching the provided name.
       parameters:
-        - name: id
+        - name: name
           in: path
           required: true
-          description: The product ID
+          description: The name to search for
           schema:
             type: string
       responses:
-        '200':
-          description: Product deleted successfully
-        '404':
-          description: Product not found
+        "200":
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+        "404":
+          description: No products found matching the name
 
   /products/count:
     get:
@@ -279,7 +271,7 @@ paths:
       summary: Count all products
       description: Retrieves the count of all products.
       responses:
-        '200':
+        "200":
           description: The max count of all products
           content:
             application/json:
@@ -287,7 +279,21 @@ paths:
                 type: number
 
   # Orders Endpoints
-  /orders/create:
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Get all orders
+      description: Retrieves a list of all orders, including their order items and related products.
+      responses:
+        "200":
+          description: A list of orders
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Order"
     post:
       tags:
         - Orders
@@ -298,38 +304,74 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/OrderCreateInput'
+              $ref: "#/components/schemas/OrderCreateInput"
       responses:
-        '201':
+        "201":
           description: Order created successfully
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '400':
+                $ref: "#/components/schemas/Order"
+        "400":
           description: Invalid data
 
   /orders/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        description: The order ID
+        schema:
+          type: string
     get:
       tags:
         - Orders
       summary: Get order by ID
       description: Retrieves an order by its unique ID, including its order items and related products.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The order ID
-          schema:
-            type: string
       responses:
-        '200':
+        "200":
           description: An order object with order items and products
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'
-        '404':
+                $ref: "#/components/schemas/Order"
+        "404":
+          description: Order not found
+    put:
+      tags:
+        - Orders
+      summary: Update an order by ID
+      description: Updates an existing order by its unique ID.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OrderUpdateInput"
+      responses:
+        "200":
+          description: Order updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "400":
+          description: Invalid data
+        "404":
+          description: Order not found
+    delete:
+      tags:
+        - Orders
+      summary: Delete an order by ID
+      description: Deletes an order by its unique ID.
+      responses:
+        "200":
+          description: Order deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+        "404":
           description: Order not found
 
   /orders/client/{clientId}:
@@ -346,74 +388,16 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: A list of orders placed by the client
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Order'
-        '404':
+                  $ref: "#/components/schemas/Order"
+        "404":
           description: No orders found for the client
-
-  /orders:
-    get:
-      tags:
-        - Orders
-      summary: Get all orders
-      description: Retrieves a list of all orders, including their order items and related products.
-      responses:
-        '200':
-          description: A list of orders
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Order'
-
-  /orders/{id}:
-    put:
-      tags:
-        - Orders
-      summary: Update an order by ID
-      description: Updates an existing order by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
-          description: The order ID
-          schema:
-            type: string
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/OrderUpdateInput'
-      responses:
-        '200':
-          description: Order updated successfully
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Order'
-        '400':
-          description: Invalid data
-        '404':
-          description: Order not found
-
-  /orders/{id}:
-    delete:
-      tags:
-        - Orders
-      summary: Delete an order by ID
-      description: Deletes an order by its unique ID.
-      parameters:
-        - name: id
-          in: path
-          required: true
 
   /orders/count:
     get:
@@ -422,34 +406,16 @@ paths:
       summary: Count all orders
       description: Retrieves the count of all orders.
       responses:
-        '200':
+        "200":
           description: The max count of all orders
           content:
             application/json:
               schema:
                 type: number
+
 components:
   schemas:
-    ResponseWrapper:
-      type: object
-      properties:
-        data:
-          type: object
-        error:
-          type: ["string", "null"]
-
     Client:
-      allOf:
-        - $ref: '#/components/schemas/ResponseWrapper'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                client:
-                  $ref: '#/components/schemas/ClientData'
-
-    ClientData:
       type: object
       properties:
         id:
@@ -460,7 +426,14 @@ components:
           type: string
         phone:
           type: string
-
+        address:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     ClientCreateInput:
       type: object
       properties:
@@ -474,11 +447,6 @@ components:
           type: string
         address:
           type: string
-      required:
-        - name
-        - email
-        - password
-
     ClientUpdateInput:
       type: object
       properties:
@@ -486,25 +454,11 @@ components:
           type: string
         email:
           type: string
-        password:
-          type: string
         phone:
           type: string
         address:
           type: string
-
     Product:
-      allOf:
-        - $ref: '#/components/schemas/ResponseWrapper'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                product:
-                  $ref: '#/components/schemas/ProductData'
-
-    ProductData:
       type: object
       properties:
         id:
@@ -515,58 +469,39 @@ components:
           type: string
         price:
           type: number
-          format: float
         stock:
-          type: integer
+          type: number
         image:
-          type: string  
-
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
     ProductCreateInput:
       type: object
       properties:
         name:
           type: string
-        description:
-          type: string
         price:
           type: number
-          format: float
         stock:
-          type: integer
+          type: number
         image:
           type: string
-      required:
-        - name
-        - price
-        - stock
-
     ProductUpdateInput:
       type: object
       properties:
         name:
           type: string
-        description:
-          type: string
         price:
           type: number
-          format: float
         stock:
-          type: integer
+          type: number
         image:
           type: string
-
     Order:
-      allOf:
-        - $ref: '#/components/schemas/ResponseWrapper'
-        - type: object
-          properties:
-            data:
-              type: object
-              properties:
-                order:
-                  $ref: '#/components/schemas/OrderData'
-
-    OrderData:
       type: object
       properties:
         id:
@@ -575,7 +510,6 @@ components:
           type: string
         total:
           type: number
-          format: float
         status:
           type: string
           enum:
@@ -583,44 +517,20 @@ components:
             - PROCESSING
             - SHIPPED
             - DELIVERED
-            - CANCELLED
-        createdAt:
-          type: string
-          format: date-time
-        orderItems:
-          type: array
-          items:
-            $ref: '#/components/schemas/OrderItem'
-
+            - CANCELED
+          orderItems:
+            type: array
+            items:
+              $ref: "#/components/schemas/OrderItem"
     OrderCreateInput:
       type: object
       properties:
         clientId:
           type: string
-        total:
-          type: number
-          format: float
-        status:
-          type: string
-        orderItems:
+        items:
           type: array
           items:
-            $ref: '#/components/schemas/OrderItem'
-      required:
-        - clientId
-        - orderItems
-
-    OrderItem:
-      type: object
-      properties:
-        productId:
-          type: string
-        quantity:
-          type: integer
-        price:
-          type: number
-          format: float
-
+            $ref: "#/components/schemas/OrderItemCreateInput"
     OrderUpdateInput:
       type: object
       properties:
@@ -629,4 +539,14 @@ components:
         items:
           type: array
           items:
-            $ref: '#/components/schemas/OrderItem'
+            $ref: "#/components/schemas/OrderItemCreateInput"
+
+    OrderItemCreateInput:
+      type: object
+      properties:
+        productId:
+          type: string
+        quantity:
+          type: number
+        price:
+          type: number

@@ -36,30 +36,18 @@ cd xpe-software-architecture-final-challenge
 yarn
 ```
 
-### 3. Run Migration
-
-```bash
-yarn prisma migrate dev
-```
-
-### 4. Generate Prisma Client
+### 3. Generate Prisma Client
 
 ```bash
 yarn prisma generate
 ```
 
-### 5. Seed the database
-
-```bash
-yarn seed
-```
-
-### 6. Run the app
+### 4. Run the app
 
 ```bash
 yarn dev
 ```
 
-### 7. Use a API development tool such as [Postman](https://www.postman.com/) to test the requests.
+### 5. Use a API development tool such as [Postman](https://www.postman.com/) to test the requests.
 
-### 8. Endpoints documentation can be found [here](http://localhost:3000/docs), by running the app.
+### 6. Endpoints documentation can be found [here](http://localhost:3000/docs), by running the app.
